@@ -1,4 +1,5 @@
 import Link from "next/link";
+import styles from "./index.module.css"
 
 export interface EventItemProps {
     title: string;
@@ -21,15 +22,15 @@ export default function EventItem(props: EventItemProps){
     const formattedAddress = location.replace(", ", "\n")
     const exploreLink = `/event/${id}`
 
-    return <li>
+    return <li className={styles.item}>
         <img src={"/"+image} alt={""}/>
-        <div>
-            <div>
+        <div className={styles.content}>
+            <div className={styles.summary}>
                 <h2>{title}</h2>
-                <div>
+                <div className={styles.date}>
                     <time>{humanReadableDate}</time>
                 </div>
-                <div>
+                <div className={styles.address}>
                     <address>{formattedAddress}</address>
                 </div>
             </div>
