@@ -1,14 +1,19 @@
 import styles from "./index.module.css"
 import Link from "next/link";
-import {ReactNode} from "react";
+import {MouseEventHandler, ReactNode} from "react";
 
 interface ButtonProps {
-    link: string;
+    link?: string;
     children: ReactNode;
+    onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
 export default function Button(props: ButtonProps) {
-    return <Link href={props.link} className={styles.btn}>
-        {props.children}
-    </Link>
+    if(props.link){
+        return <Link href={props.link} className={styles.btn}>
+            {props.children}
+        </Link>
+    }
+
+    return <button onClick={props.onClick} className={styles.btn}>{props.children}</button>
 }
