@@ -22,7 +22,6 @@ interface EventDetailProps {
 
 export default async function EventDetail({ params }: EventDetailProps) {
     const { eventId } = params; // Get eventId from dynamic route
-    console.log("EventDetail:", eventId)
     const event = await getEventById(eventId); // Fetch event data at build time
 
     if (!event) {

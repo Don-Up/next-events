@@ -5,7 +5,9 @@ import prisma from '@/lib/prisma';
 // GET: Fetch all events or a single event by ID
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
-    const id = searchParams.get('id');
+    const id = searchParams.get("id");
+    const year = searchParams.get("year");
+    const month = searchParams.get("month");
 
     try {
         if (id) {
@@ -14,21 +16,40 @@ export async function GET(req: NextRequest) {
                 where: { id },
             });
             if (!event) {
-                return NextResponse.json({ error: 'Event not found' }, { status: 404 });
+                return NextResponse.json({ error: "Event not found" }, { status: 404 });
             }
             return NextResponse.json(event);
-        } else {
-            // Fetch all events
-            const events = await prisma.event.findMany({
-                orderBy: { date: 'asc' }, // Optional: sort by date
-            });
-            return NextResponse.json(events);
         }
+
+        // Prepare filters
+        const filters: any = {};
+
+        if (year && month) {
+            // Filter events that match the given year and month
+            filters.date = {
+                gte: new Date(`${year}-${month}-01`), // Start of the month
+                lt: new Date(`${year}-${Number(month) + 1}-01`), // Start of the next month
+            };
+        } else if (year) {
+            filters.date = {
+                gte: new Date(`${year}-01-01`), // Start of the year
+                lt: new Date(`${Number(year) + 1}-01-01`), // Start of the next year
+            };
+        }
+
+        // Fetch filtered events
+        const events = await prisma.event.findMany({
+            where: filters,
+            orderBy: { date: "asc" }, // Sort by date
+        });
+
+        return NextResponse.json(events);
     } catch (error) {
-        console.error('Error fetching events:', error);
-        return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+        console.error("Error fetching events:", error);
+        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 }
+
 
 // POST: Create a new event
 export async function POST(req: NextRequest) {

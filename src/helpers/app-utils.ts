@@ -7,8 +7,8 @@
 export async function getAllFeaturedEvents() {
     // Use Next.js fetch with force-cache (default) for SSG
     const response = await fetch('http://localhost:3000/api/events', {
-        cache: 'force-cache', // Ensures data is fetched at build time (SSG)
-        // next: { revalidate: 60 }, // ISR: Regenerate every 60 seconds
+        // cache: 'force-cache', // Ensures data is fetched at build time (SSG)
+        next: { revalidate: 1800 }, // ISR: Regenerate every 60 seconds
     });
 
     if (!response.ok) {
@@ -19,10 +19,32 @@ export async function getAllFeaturedEvents() {
     return events.filter((event: any) => event.isFeatured);
 }
 
+/**
+ * Fetches an event by its ID.
+ * @param id
+ */
 export async function getEventById(id: string){
     const response = await fetch('http://localhost:3000/api/events?id='+id, {
-        cache: 'force-cache', // Ensures data is fetched at build time (SSG)
-        // next: { revalidate: 60 }, // ISR: Regenerate every 60 seconds
+        // cache: 'force-cache', // Ensures data is fetched at build time (SSG)
+        next: { revalidate: 30 }, // ISR: Regenerate every 60 seconds
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch events');
+    }
+
+    return await response.json();
+}
+
+/**
+ * Fetches events by year and month.
+ * @param year
+ * @param month
+ */
+export async function getEventsByYearAndMonth(year: number, month: number){
+    const response = await fetch('http://localhost:3000/api/events?year='+year+'&month='+month, {
+        // cache: 'force-cache', // Ensures data is fetched at build time (SSG)
+        next: { revalidate: 30 }, // ISR: Regenerate every 60 seconds
     });
 
     if (!response.ok) {
