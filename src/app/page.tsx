@@ -1,5 +1,14 @@
 import EventList from "@/components/event/event-list";
 import {getAllFeaturedEvents} from "@/helpers/app-utils";
+import {Metadata} from "next";
+
+/**
+ * Generate metadata for the Home page.
+ */
+export const metadata: Metadata = {
+    title: "NextJS Events",
+    description: "Find a lot of great events that allow you to evolve...",
+};
 
 /**
  * Home page component that displays featured events.

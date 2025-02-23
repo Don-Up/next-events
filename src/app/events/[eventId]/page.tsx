@@ -4,25 +4,45 @@ import EventContent from "@/components/event-detail/event-content";
 import ErrorAlert from "@/components/event-detail/error-alert";
 import { getEventById } from "@/helpers/app-utils";
 
-/**
- * Pre-generates static paths like `events/e1` at build time (SSG).
- */
-export async function generateStaticParams() {
-    return [{ eventId: "e1" }]; // This pre-renders `/events/e1`
-}
-
-/**
- * useParams is not available in App Router.
- * And the parameter name (eventId in this case)
- * is determined by the folder structure [eventId] inside the app directory.
- */
 interface EventDetailProps {
     params: { eventId: string };
 }
 
+/**
+ * Fetch event data once and reuse it in both `generateMetadata` and `EventDetail`.
+ */
+async function fetchEventData(eventId: string) {
+    return await getEventById(eventId);
+}
+
+/**
+ * Pre-generates static paths like `events/e1` at build time (SSG).
+ */
+export async function generateStaticParams() {
+    return [{ eventId: "e1" }];
+}
+
+/**
+ * Generate metadata dynamically based on event data.
+ */
+export async function generateMetadata({ params }: EventDetailProps) {
+    const event = await fetchEventData(params.eventId); // Prevent duplicate API calls
+
+    if (!event) {
+        return {
+            title: "Event Not Found",
+            description: "The event you are looking for does not exist.",
+        };
+    }
+
+    return {
+        title: event.title,
+        description: event.description,
+    };
+}
+
 export default async function EventDetail({ params }: EventDetailProps) {
-    const { eventId } = params; // Get eventId from dynamic route
-    const event = await getEventById(eventId); // Fetch event data at build time
+    const event = await fetchEventData(params.eventId); // Prevent duplicate API calls
 
     if (!event) {
         return (
