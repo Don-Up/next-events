@@ -3,16 +3,6 @@ const baseUrl =
     process.env.NEXT_PUBLIC_VERCEL_URL
         ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
         : "http://" + httpLocalhost3000;
-export function getPostJsonConfig(data: any){
-    return {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    }
-}
-
 /**
  * Fetches all featured events from the API.
  * @returns {Promise<Array>} A promise that resolves to an array of featured events.
@@ -65,4 +55,14 @@ export async function getEventsByYearAndMonth(year: number, month: number){
     }
 
     return await response.json();
+}
+
+export function getPostJsonConfig(data: any){
+    return {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }
 }

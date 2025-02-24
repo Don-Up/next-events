@@ -1,5 +1,5 @@
 import EventList from "@/components/event/event-list";
-import {getAllFeaturedEvents} from "@/helpers/app-utils";
+// import {getAllFeaturedEvents} from "@/helpers/app-utils";
 import {Metadata} from "next";
 import NewsletterRegistration from "@/components/input/newsletter-registration";
 
@@ -16,12 +16,13 @@ export const metadata: Metadata = {
  * @returns {JSX.Element} The Home page with a list of featured events.
  */
 export default async function Home() {
-    const featuredEvents = await getAllFeaturedEvents();
+    // const featuredEvents = await getAllFeaturedEvents();
 
     return (
         <div>
-            <NewsletterRegistration />
-            <EventList items={featuredEvents} />
+            Hello Next?
+            {/*<NewsletterRegistration />*/}
+            {/*<EventList items={featuredEvents} />*/}
         </div>
     );
 }
