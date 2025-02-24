@@ -1,5 +1,5 @@
 "use client"
-import {createContext, useEffect, useState} from "react";
+import {createContext, useContext, useEffect, useState} from "react";
 
 interface Notification {
     title: string,
@@ -13,14 +13,15 @@ type NotificationContextType = {
     hideNotification: () => void
 }
 
-const NotificationContext = createContext<NotificationContextType>({
-    notification: null,
-    showNotification: (notificationData: Notification) => {
-        console.log(notificationData)
-    },
-    hideNotification: () => {
+const NotificationContext = createContext<NotificationContextType | null>(null)
+
+export function useNotificationContext() {
+    const context = useContext(NotificationContext)
+    if (context === null) {
+        throw new Error("useNotificationContext must be used within a NotificationContextProvider")
     }
-})
+    return context
+}
 export function NotificationContextProvider(props: any) {
     const [activeNotification, setActiveNotification] = useState<Notification | null>(null)
 

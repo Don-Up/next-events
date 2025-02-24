@@ -1,12 +1,12 @@
 "use client"
 import classes from './newsletter-registration.module.css';
-import {useContext, useRef} from "react";
-import NotificationContext from "@/store/notification-context";
+import {useRef} from "react";
+import {useNotificationContext} from "@/store/notification-context";
 
 function NewsletterRegistration() {
 
     const emailInputRef = useRef(null)
-    const {showNotification, hideNotification} = useContext(NotificationContext)
+    const {showNotification, hideNotification} = useNotificationContext()
 
     function registrationHandler(event) {
         event.preventDefault();
@@ -19,9 +19,6 @@ function NewsletterRegistration() {
             status: 'pending'
         })
 
-        // fetch user input (state or refs)
-        // optional: validate input
-        // send valid data to API
         fetch('/api/newsletter', {
             method: 'POST',
             body: JSON.stringify({email: enteredEmail}),
