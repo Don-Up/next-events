@@ -25,7 +25,7 @@ export async function getAllFeaturedEvents() {
     });
 
     if (!response.ok) {
-        throw new Error('Failed to fetch events');
+        throw new Error('Failed to fetch events: '+baseUrl+'/api/events');
     }
 
     const events = await response.json();

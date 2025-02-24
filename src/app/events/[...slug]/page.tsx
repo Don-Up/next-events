@@ -1,17 +1,18 @@
+// @ts-nocheck
 import EventList from "@/components/event/event-list";
 import ResultsTitle from "@/components/event-detail/results-title";
 import Button from "@/components/ui/button";
 import ErrorAlert from "@/components/event-detail/error-alert";
 import {getEventsByYearAndMonth} from "@/helpers/app-utils";
 
-interface FilteredEventsProps {
+interface PageProps {
     params: {
         slug: string[];
     };
 }
 
-export default async function FilteredEventsPage({params}: FilteredEventsProps) {
-    const {slug} = params
+export default async function FilteredEventsPage(props: any) {
+    const {slug} = (props as PageProps).params
 
     if (!slug) {
         return <p className={"center"}>Loading...</p>

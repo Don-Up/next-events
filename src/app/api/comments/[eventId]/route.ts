@@ -1,13 +1,12 @@
-// GET api
-import {NextRequest, NextResponse} from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from '@/lib/prisma';
 
-export async function GET(req: NextRequest, { params }: { params: { eventId: string } }) {
-    // 获取/api/comments/e2的e2
-    const eventId = params.eventId;
+export async function GET(req: NextRequest, context: any) {
+    const { params } = context;
+    const eventId = params.eventId as string;
 
     if (!eventId) {
-        return NextResponse.json({message: 'Invalid eventId, '}, {status: 400});
+        return NextResponse.json({ message: 'Invalid eventId' }, { status: 400 });
     }
 
     try {
@@ -20,27 +19,26 @@ export async function GET(req: NextRequest, { params }: { params: { eventId: str
         return NextResponse.json({ comments }, { status: 200 });
     } catch (error) {
         console.error('Error fetching comments:', error);
-        return NextResponse.json({message: 'Internal Server Error'}, {status: 500});
+        return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
     }
-    // Fetch comments for the given eventId
 }
 
-// POST api
-export async function POST(req: NextRequest, { params }: { params: { eventId: string } }) {
-    const eventId = params.eventId;
+export async function POST(req: NextRequest, context: any) {
+    const { params } = context;
+    const eventId = params.eventId as string;
 
     if (!eventId) {
-        return NextResponse.json({message: 'Invalid eventId, '}, {status: 400});
+        return NextResponse.json({ message: 'Invalid eventId' }, { status: 400 });
     }
 
     const body = await req.json();
-    const {email, name, comment} = body
+    const { email, name, comment } = body;
+
     if (!email || !email.includes('@') || !name || name.trim() === '' || !comment || comment.trim() === '') {
-        return NextResponse.json({error: 'Invalid input'}, {status: 422})
+        return NextResponse.json({ error: 'Invalid input' }, { status: 422 });
     }
 
     try {
-        // Create a new comment in the database
         const newComment = await prisma.comment.create({
             data: {
                 email,

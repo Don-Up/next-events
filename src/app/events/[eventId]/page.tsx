@@ -19,15 +19,16 @@ async function fetchEventData(eventId: string) {
 /**
  * Pre-generates static paths like `events/e1` at build time (SSG).
  */
-export async function generateStaticParams() {
-    return [{ eventId: "e1" }];
-}
+// export async function generateStaticParams() {
+//     return [{ eventId: "e1" }];
+// }
 
 /**
  * Generate metadata dynamically based on event data.
  */
-export async function generateMetadata({ params }: EventDetailProps) {
-    const event = await fetchEventData(params.eventId); // Prevent duplicate API calls
+// @ts-nocheck
+export async function generateMetadata(props: any) {
+    const event = await fetchEventData((props as EventDetailProps).params.eventId); // Prevent duplicate API calls
 
     if (!event) {
         return {
@@ -42,8 +43,8 @@ export async function generateMetadata({ params }: EventDetailProps) {
     };
 }
 
-export default async function EventDetail({ params }: EventDetailProps) {
-    const event = await fetchEventData(params.eventId); // Prevent duplicate API calls
+export default async function EventDetail(props: any) {
+    const event = await fetchEventData((props as EventDetailProps).params.eventId); // Prevent duplicate API calls
 
     if (!event) {
         return (
