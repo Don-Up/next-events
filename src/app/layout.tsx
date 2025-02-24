@@ -31,7 +31,6 @@ export default function RootLayout({
         <NotificationContextProvider>
             <Layout>
                 {children}
-                <Notification title={"Test"} message={"This is a test"} status={"success"}/>
             </Layout>
         </NotificationContextProvider>
         </body>

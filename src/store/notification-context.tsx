@@ -1,7 +1,13 @@
 "use client"
-import {createContext, useState} from "react";
+import {createContext, useEffect, useState} from "react";
 
-export type NotificationContextType = {
+interface Notification {
+    title: string,
+    message: string,
+    status: "pending" | "success" | "error"
+}
+
+type NotificationContextType = {
     notification: any,
     showNotification: (notificationData: any) => void,
     hideNotification: () => void
@@ -9,17 +15,26 @@ export type NotificationContextType = {
 
 const NotificationContext = createContext<NotificationContextType>({
     notification: null,
-    showNotification: (notificationData: any) => {
+    showNotification: (notificationData: Notification) => {
         console.log(notificationData)
     },
     hideNotification: () => {
     }
 })
-
 export function NotificationContextProvider(props: any) {
-    const [activeNotification, setActiveNotification] = useState<any>(null)
+    const [activeNotification, setActiveNotification] = useState<Notification | null>(null)
 
-    function showNotificationHandler(notificationData: any) {
+    useEffect(() => {
+        if(activeNotification && (activeNotification.status === "success" || activeNotification.status === "error")){
+            const timer = setTimeout(() => {
+                setActiveNotification(null)
+            }, 3000)
+
+            return () => clearTimeout(timer)
+        }
+    }, [activeNotification]);
+
+    function showNotificationHandler(notificationData: Notification) {
         setActiveNotification(notificationData)
     }
 
@@ -27,7 +42,7 @@ export function NotificationContextProvider(props: any) {
         setActiveNotification(null)
     }
 
-    const context = {
+    const context: NotificationContextType = {
         notification: activeNotification,
         showNotification: showNotificationHandler,
         hideNotification: hideNotificationHandler
