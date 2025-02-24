@@ -11,7 +11,7 @@ function CommentList(props) {
             {
                 items.map((comment) => (
                     <li key={comment.id}>
-                        <p>{comment.text}</p>
+                        <p>{comment.comment}</p>
                         <div>
                             By <address>{comment.name}</address>
                         </div>

@@ -64,7 +64,6 @@ export async function POST(req: NextRequest) {
 
         const newEvent = await prisma.event.create({
             data: {
-                id,
                 title,
                 description,
                 location,

@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react';
 import CommentList from './comment-list';
 import NewComment from './new-comment';
 import classes from './comments.module.css';
+import {getPostJsonConfig} from "@/helpers/app-utils";
 
 function Comments(props) {
     const {eventId} = props;
@@ -28,13 +29,8 @@ function Comments(props) {
 
     function addCommentHandler(commentData) {
         // send data to API
-        fetch("/api/comments/" + eventId, {
-            method: "POST",
-            body: JSON.stringify(commentData),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
+        fetch("/api/comments/" + eventId,
+            getPostJsonConfig(commentData))
             .then((response) => response.json())
             .then((data) => console.log(data));
     }

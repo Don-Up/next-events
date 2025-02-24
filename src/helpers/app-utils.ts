@@ -1,5 +1,15 @@
 
 
+export function getPostJsonConfig(data: any){
+    return {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }
+}
+
 /**
  * Fetches all featured events from the API.
  * @returns {Promise<Array>} A promise that resolves to an array of featured events.
