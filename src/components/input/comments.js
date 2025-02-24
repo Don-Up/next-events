@@ -19,7 +19,9 @@ function Comments(props) {
         if (showComments) {
             setIsFetchingComments(true)
             fetch("/api/comments/" + eventId)
-                .then((response) => response.json())
+                .then((response) => {
+                    return response.json();
+                })
                 .then((data) => {
                     setIsFetchingComments(false)
                     setComments(data.comments)

@@ -28,7 +28,8 @@ async function fetchEventData(eventId: string) {
  */
 // @ts-nocheck
 export async function generateMetadata(props: any) {
-    const event = await fetchEventData((props as EventDetailProps).params.eventId); // Prevent duplicate API calls
+    const params = await props.params
+    const event = await fetchEventData(params.eventId); // Prevent duplicate API calls
 
     if (!event) {
         return {
@@ -44,7 +45,8 @@ export async function generateMetadata(props: any) {
 }
 
 export default async function EventDetail(props: any) {
-    const event = await fetchEventData((props as EventDetailProps).params.eventId); // Prevent duplicate API calls
+    const params = await props.params
+    const event = await fetchEventData(params.eventId); // Prevent duplicate API calls
 
     if (!event) {
         return (
