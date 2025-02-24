@@ -3,6 +3,7 @@ import EventLogistics from "@/components/event-detail/event-logistics";
 import EventContent from "@/components/event-detail/event-content";
 import ErrorAlert from "@/components/event-detail/error-alert";
 import { getEventById } from "@/helpers/app-utils";
+import Comments from "@/components/input/comments";
 
 interface EventDetailProps {
     params: { eventId: string };
@@ -64,6 +65,7 @@ export default async function EventDetail({ params }: EventDetailProps) {
             <EventContent>
                 <p>{event.description}</p>
             </EventContent>
+            <Comments eventId={event.id} />
         </>
     );
 }
