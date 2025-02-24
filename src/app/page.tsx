@@ -1,6 +1,7 @@
 import EventList from "@/components/event/event-list";
 import {getAllFeaturedEvents} from "@/helpers/app-utils";
 import {Metadata} from "next";
+import NewsletterRegistration from "@/components/input/newsletter-registration";
 
 /**
  * Generate metadata for the Home page.
@@ -19,6 +20,7 @@ export default async function Home() {
 
     return (
         <div>
+            <NewsletterRegistration />
             <EventList items={featuredEvents} />
         </div>
     );
