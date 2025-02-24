@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma:migrate": "DATABASE_URL=$DATABASE_URL_LOCAL npx prisma migrate dev",
+    "prisma:deploy": "DATABASE_URL=$DATABASE_URL_PRO npx prisma migrate deploy"
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",
