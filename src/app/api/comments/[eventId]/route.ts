@@ -1,12 +1,12 @@
 // GET api
 import {NextRequest, NextResponse} from "next/server";
 
-export async function GET(req: NextRequest) {
-    const {searchParams} = new URL(req.url);
-    const eventId = searchParams.get('eventId');
+export async function GET(req: NextRequest, { params }: { params: { eventId: string } }) {
+    // 获取/api/comments/e2的e2
+    const eventId = params.eventId;
 
     if (!eventId) {
-        return NextResponse.json({message: 'Invalid eventId'}, {status: 400});
+        return NextResponse.json({message: 'Invalid eventId, '}, {status: 400});
     }
 
     const dummyList = [
@@ -32,6 +32,7 @@ export async function POST(req: NextRequest) {
         name,
         text
     }
+
     console.log(newComment)
 
     return NextResponse.json({message: 'Success', comment: newComment}, {status: 201})
